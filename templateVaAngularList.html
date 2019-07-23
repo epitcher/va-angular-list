@@ -1,0 +1,7 @@
+<div class="va-angular-list">
+    <div ng-repeat="item in virtualList track by $index">
+        <div ng-repeat="field in fields track by $index">
+            <p>{{ field +': ' + item[$index] }}</p>
+        </div>
+    </div>
+</div>
