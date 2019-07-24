@@ -18,6 +18,7 @@ app.directive('vaList', function() {
         $scope.fields = $attrs.vaListFields.split(",");
         $scope.list = ($scope.vaListObject);
         $scope.virtualList = [];
+        $scope.virtualListTemp = [];
         for(let a = 0; a < $scope.list.length; a++) {
           let item = $scope.list[a];
           let temp = [];
@@ -27,9 +28,29 @@ app.directive('vaList', function() {
           }
           $scope.virtualList.push(temp);
         }
+        $scope.virtualListTemp = $scope.virtualList;
+        console.log($scope.virtualListTemp)
+
+        $scope.dynamicModels = [];
+        $scope.Search = () => {
+          for(key in $scope.dynamicModels) {
+            console.log("Searching field: " + key);
+
+            $scope.virtualList.forEach(element => {
+              console.log(element);
+              if(element[key].indexOf($scope.dynamicModels[key]) != -1) $scope.virtualListTemp.push(elememt);
+            })
+          }
+        }
       }
     };
   });
+
+app.filter('nameCase', function() {
+    return function(text) {
+      return (!!text) ? text.charAt(0).toUpperCase() + text.substr(1).toLowerCase() : '';
+    }
+});
 
 app.controller('InitController', ['$rootScope', Init]);
 function Init($rootScope) {
