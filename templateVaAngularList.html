@@ -1,13 +1,13 @@
 <div class="va-angular-list container">
     <div class="row">
-        <div ng-repeat="field in fields track by $index">
+        <div ng-repeat="(key, field) in fields track by $index">
             <div class="col"><h5>{{ field | nameCase }}</h5></div>
             <input ng-model="dynamicModels[field]" ng-change="Search()" type="text" placeholder="{{ field | nameCase }}">
         </div>
     </div>
-    <div class="row" ng-repeat="item in virtualListTemp track by $index">
+    <div class="row" ng-repeat="(key2, item) in virtualListTemp track by $index">
         <div ng-repeat="field in fields track by $index">
-            <div class="col">{{ item[$index] }}</div>
+            <div class="col">{{ item[field] }}</div>
         </div>
     </div>
 </div>

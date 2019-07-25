@@ -15,6 +15,7 @@ app.directive('vaList', function() {
         vaListObject: "=",
       },
       link: function($scope, $element, $attrs) {
+        $scope.dynamicModels = [];
         $scope.fields = $attrs.vaListFields.split(",");
         $scope.list = ($scope.vaListObject);
         $scope.virtualList = [];
@@ -24,22 +25,27 @@ app.directive('vaList', function() {
           let temp = [];
           for(let b = 0; b < $scope.fields.length; b++) {
             let field = $scope.fields[b];
-            temp.push(item[field]);
+            temp[field] = (item[field]);
           }
           $scope.virtualList.push(temp);
         }
+        $scope.fields.forEach(element => {
+          $scope.dynamicModels[element] = "";
+        })
         $scope.virtualListTemp = $scope.virtualList;
-        console.log($scope.virtualListTemp)
 
-        $scope.dynamicModels = [];
+        
         $scope.Search = () => {
+          $scope.virtualListTemp = $scope.virtualList;
+          let newList = [];
           for(key in $scope.dynamicModels) {
-            console.log("Searching field: " + key);
-
-            $scope.virtualList.forEach(element => {
-              console.log(element);
-              if(element[key].indexOf($scope.dynamicModels[key]) != -1) $scope.virtualListTemp.push(elememt);
+            newList = [];
+            $scope.virtualListTemp.forEach(element => {
+              let searched = (element[key].toLowerCase().indexOf($scope.dynamicModels[key]) != -1) ? true : false; 
+              if(searched && newList.indexOf(element) == -1) newList.push(element);
+              
             })
+            $scope.virtualListTemp = newList;
           }
         }
       }
