@@ -5,9 +5,21 @@
             <input ng-model="dynamicModels[field]" ng-change="Search()" type="text" placeholder="{{ field | nameCase }}">
         </div>
     </div>
-    <div class="row" ng-repeat="(key2, item) in virtualListTemp track by $index">
+    <div class="row" ng-repeat="(key2, item) in virtualListPagination track by $index">
         <div ng-repeat="field in fields track by $index">
             <div class="col">{{ item[field] }}</div>
         </div>
     </div>
+
+    <!-- Buttons -->
+    <div ng-show="virtualListTemp.length > paginationPerPage">
+        <button ng-click="PaginationDown()">Back</button>
+        <span>
+            <span ng-bind="paginationCurrent"></span>
+            <span> / </span>
+            <span ng-bind="paginationTotal"></span>
+        </span>
+        <button ng-click="PaginationUp()">Next</button>
+    </div>
+    <!-- Buttons END -->
 </div>
