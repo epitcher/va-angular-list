@@ -1,10 +1,10 @@
 let sampleData = [
-  {price: "1.50", name: "1Test One", desc: "First test item"},
-  {price: "25.20", name: "2Test Two", desc: "Second test item"},
-  {price: "100.50", name: null, desc: "Third test item"},
-  {price: "1.50", name: "4 Test One", desc: "First test item"},
-  {price: "25.20", name: "5 Test Two", desc: "Second test item"},
-  {price: "100.50", name: "6 Test Three", desc: "Third test item"},
+  {price: "1.50", name: "1Test One", desc: "First test item", customerID: "va"},
+  {price: "25.20", name: "2Test Two", desc: "Second test item", customerID: "va"},
+  {price: "100.50", name: null, desc: "Third test item", customerID: "va"},
+  {price: "1.50", name: "4 Test One", desc: "First test item", customerID: "va"},
+  {price: "25.20", name: "5 Test Two", desc: "Second test item", customerID: "va"},
+  {price: "100.50", name: "6 Test Three", desc: "Third test item", customerID: "va"},
   {price: "1.50", name: "7 Test One", desc: "First test item"},
   {price: "25.20", name: "8 Test Two", desc: "Second test item"},
   {price: "100.50", name: "9 Test Three", desc: "Third test item"},
@@ -41,7 +41,7 @@ app.directive('vaList', function() {
       link: function($scope, $element, $attrs) {
         $scope.paginationPerPage = ($attrs.vaListPagination == null) ? 0 : parseInt($attrs.vaListPagination);
         $scope.dynamicModels = [];
-        $scope.fields = $attrs.vaListFields.split(",");
+        $scope.fields = $attrs.vaListFields.replace(/\s/g,'').split(",");
         $scope.list = ($scope.vaListObject);
         $scope.virtualList = [];
         $scope.virtualListTemp = [];
@@ -51,7 +51,7 @@ app.directive('vaList', function() {
           let temp = [];
           for(let b = 0; b < $scope.fields.length; b++) {
             let field = $scope.fields[b];
-            temp[field] = (item[field] == null) ? "null" : item[field];
+            temp[field] = (item[field] == null) ? "" : item[field];
           }
           $scope.virtualList.push(temp);
         }
@@ -68,7 +68,7 @@ app.directive('vaList', function() {
             if(!$scope.dynamicModels.hasOwnProperty(key)) continue;
             newList = [];
             $scope.virtualListTemp.forEach(element => {
-              let searched = (element[key].toLowerCase().indexOf($scope.dynamicModels[key]) != -1) ? true : false; 
+              let searched = (element[key].toLowerCase().indexOf($scope.dynamicModels[key].toLowerCase()) != -1) ? true : false; 
               if(searched && newList.indexOf(element) == -1) newList.push(element);
               
             })
