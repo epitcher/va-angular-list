@@ -65,6 +65,7 @@ app.directive('vaList', function() {
           $scope.virtualListTemp = $scope.virtualList;
           let newList = [];
           for(key in $scope.dynamicModels) {
+            if(!$scope.dynamicModels.hasOwnProperty(key)) continue;
             newList = [];
             $scope.virtualListTemp.forEach(element => {
               let searched = (element[key].toLowerCase().indexOf($scope.dynamicModels[key]) != -1) ? true : false; 
