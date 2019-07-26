@@ -1,7 +1,7 @@
 let sampleData = [
   {price: "1.50", name: "1Test One", desc: "First test item"},
   {price: "25.20", name: "2Test Two", desc: "Second test item"},
-  {price: "100.50", name: "3Test Three", desc: "Third test item"},
+  {price: "100.50", name: null, desc: "Third test item"},
   {price: "1.50", name: "4 Test One", desc: "First test item"},
   {price: "25.20", name: "5 Test Two", desc: "Second test item"},
   {price: "100.50", name: "6 Test Three", desc: "Third test item"},
@@ -51,7 +51,7 @@ app.directive('vaList', function() {
           let temp = [];
           for(let b = 0; b < $scope.fields.length; b++) {
             let field = $scope.fields[b];
-            temp[field] = (item[field]);
+            temp[field] = (item[field] == null) ? "null" : item[field];
           }
           $scope.virtualList.push(temp);
         }
