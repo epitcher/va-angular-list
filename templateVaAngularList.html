@@ -9,6 +9,11 @@
         <div ng-repeat="field in fields track by $index">
             <div class="col">{{ item[field] }}</div>
         </div>
+        <div ng-repeat="action in actions">
+            <a ng-href="{{ action.url + item[action.field] }}">
+                <button>{{ action.name | nameCase }}</button>
+            </a>
+        </div>
     </div>
 
     <!-- Buttons -->

@@ -39,6 +39,7 @@ app.directive('vaList', function() {
         vaListObject: "=",
       },
       link: function($scope, $element, $attrs) {
+        $scope.actions = [];
         $scope.paginationPerPage = ($attrs.vaListPagination == null) ? 0 : parseInt($attrs.vaListPagination);
         $scope.dynamicModels = [];
         $scope.fields = $attrs.vaListFields.replace(/\s/g,'').split(",");
@@ -60,7 +61,20 @@ app.directive('vaList', function() {
         })
         $scope.virtualListTemp = $scope.virtualList;
 
-        
+        $scope.UnpackActions = () => {
+          let base = $attrs.vaListActions.split(',');
+          base.forEach(element => {
+            let parts = element.split('|');
+            let temp = {};
+            let regex = /<.*?>/g;
+            while(res = regex.exec(parts[1])) {
+              temp.field = res[0].replace(/[<()>]/g, '');
+              temp.url = res.input.replace(res[0], "");
+            }
+            temp.name = parts[0];
+            $scope.actions.push(temp);
+          })
+        }
         $scope.Search = () => {
           $scope.virtualListTemp = $scope.virtualList;
           let newList = [];
@@ -95,6 +109,7 @@ app.directive('vaList', function() {
           $scope.paginationCurrent--;
           $scope.PaginationSelect();
         }
+        $scope.UnpackActions();
         $scope.Pagination();
       }
     };
